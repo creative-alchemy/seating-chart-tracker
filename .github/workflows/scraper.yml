@@ -1,0 +1,41 @@
+name: Daily Seating Chart Screenshot
+
+on:
+  schedule:
+    # This runs at minute 0 of every 4th hour (00:00, 04:00, 08:00, etc.)
+    - cron: "0 */4 * * *"
+  workflow_dispatch: # This magical line allows you to click a "Run Workflow" button to test it manually!
+
+jobs:
+  take-screenshot:
+    runs-on: ubuntu-latest
+
+    # CRITICAL: This permission allows the Action to commit the file back to the repo
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run Puppeteer script
+        run: npm start
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add screenshots/
+
+          # This checks if a new screenshot was actually added. 
+          # If nothing changed (e.g., the script failed), it won't throw an error trying to commit nothing.
+          git diff --quiet && git diff --staged --quiet || git commit -m "📸 Add daily seating chart screenshot"
+          git push

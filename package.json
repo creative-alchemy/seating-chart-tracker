@@ -1,0 +1,12 @@
+{
+  "name": "seating-chart-tracker",
+  "version": "1.0.0",
+  "description": "Daily screenshot of concert seating chart",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "puppeteer": "^22.15.0"
+  }
+}
