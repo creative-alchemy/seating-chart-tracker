@@ -3,7 +3,7 @@ const fs = require("fs");
 
 (async () => {
   // 1. Set up the directory and filename using today's date
-  const date = new Date().toISOString().split("T")[0];
+  const date = new Date().toISOString();
   const dir = "./screenshots";
 
   if (!fs.existsSync(dir)) {
