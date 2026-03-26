@@ -28,6 +28,10 @@ jobs:
 
       - name: Run Puppeteer script
         run: npm start
+        env:
+          # This maps the GitHub Secret to an environment variable the script can see
+          EVENT_PAGE_PASSWORD: ${{ secrets.EVENT_PAGE_PASSWORD }}
+          EVENT_PAGE_URL: ${{ secrets.EVENT_PAGE_URL }} # You can put the URL here too!
 
       - name: Commit and Push changes
         run: |

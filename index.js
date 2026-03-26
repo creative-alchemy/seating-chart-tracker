@@ -43,7 +43,7 @@ const fs = require("fs");
 
     // 4. Wait for the page to navigate or for the seating chart to appear
     console.log("Logged in, waiting for seating chart...");
-    const chartSelector = "#seating-map-id"; // Your specific chart selector
+    const chartSelector = "#reserved-seating-container"; // Your specific chart selector
     await page.waitForSelector(chartSelector, { timeout: 60000 }); // Give it a full minute to load
 
     // --- CAPTURE SCREENSHOT ---
