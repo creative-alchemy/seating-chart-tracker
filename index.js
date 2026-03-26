@@ -29,21 +29,27 @@ const fs = require("fs");
     await page.goto(url, { waitUntil: "networkidle2" });
 
     // --- LOGIN STEPS ---
-    // 1. Wait for the password field (Update the selector to match your page)
+    // --- STEP 1: CONDITIONAL LOGIN ---
     const passwordSelector = 'input[type="password"]';
-    await page.waitForSelector(passwordSelector);
+    const needsLogin = await page.$(passwordSelector); // Returns null if not found
 
-    // 2. Type the password
-    await page.type(passwordSelector, password);
+    if (needsLogin) {
+      console.log("Password protection detected. Logging in...");
+      const password = process.env.EVENT_PAGE_PASSWORD;
+      await page.type(passwordSelector, password);
 
-    // 3. Click the submit button (Update this selector as well)
-    // Often it's 'button[type="submit"]' or something similar
-    const submitSelector = ".registration-closed button";
-    await page.click(submitSelector);
+      const submitSelector = ".registration-closed button"; // Update to your actual button
+      await page.click(submitSelector);
+
+      // Wait for the next page to load after clicking submit
+      await page.waitForNavigation({ waitUntil: "networkidle2" });
+    } else {
+      console.log("No password protection found. Proceeding to chart...");
+    }
 
     // 4. Wait for the page to navigate or for the seating chart to appear
     console.log("Logged in, waiting for seating chart...");
-    const chartSelector = "#reserved-seating-container"; // Your specific chart selector
+    const chartSelector = ".reservedSeating-container"; // Your specific chart selector
     await page.waitForSelector(chartSelector, { timeout: 60000 }); // Give it a full minute to load
 
     // --- CAPTURE SCREENSHOT ---
