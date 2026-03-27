@@ -50,6 +50,25 @@ const fs = require("fs");
     const element = await page.$(chartSelector);
     await element.screenshot({ path: filepath });
     console.log(`Successfully saved screenshot to ${filepath}`);
+
+    // Rebuild a manifest so it always includes all screenshots after each capture.
+    const manifestPath = `${dir}/manifest.json`;
+    const screenshots = fs
+      .readdirSync(dir)
+      .filter((file) => file.toLowerCase().endsWith(".png"))
+      .sort()
+      .map((file) => ({
+        filename: file,
+        link: `screenshots/${file}`,
+      }));
+
+    const manifest = {
+      updatedAt: new Date().toISOString(),
+      screenshots,
+    };
+
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
+    console.log(`Updated screenshot manifest at ${manifestPath}`);
   } catch (error) {
     console.error("Error capturing screenshot:", error);
     process.exit(1); // Fails the GitHub Action if it breaks, so you get an alert
