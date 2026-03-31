@@ -24,25 +24,10 @@ const fs = require("fs");
 
   try {
     const url = process.env.EVENT_PAGE_URL;
-    const password = process.env.EVENT_PAGE_PASSWORD;
 
     await page.goto(url, { waitUntil: "networkidle2" });
 
-    // --- LOGIN STEPS ---
-    // 1. Wait for the password field (Update the selector to match your page)
-    const passwordSelector = 'input[type="password"]';
-    await page.waitForSelector(passwordSelector);
-
-    // 2. Type the password
-    await page.type(passwordSelector, password);
-
-    // 3. Click the submit button (Update this selector as well)
-    // Often it's 'button[type="submit"]' or something similar
-    const submitSelector = ".registration-closed button";
-    await page.click(submitSelector);
-
-    // 4. Wait for the page to navigate or for the seating chart to appear
-    console.log("Logged in, waiting for seating chart...");
+    //  Wait for the page to navigate or for the seating chart to appear
     const chartSelector = ".reservedSeating-container"; // Your specific chart selector
     await page.waitForSelector(chartSelector, { timeout: 60000 }); // Give it a full minute to load
 
