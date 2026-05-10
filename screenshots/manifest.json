@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-05-10T13:04:31.144Z",
+  "updatedAt": "2026-05-10T16:46:23.805Z",
   "screenshots": [
     {
       "filename": "seating-2026-03-26T20:31:00.694Z.png",
@@ -1076,6 +1076,10 @@
     {
       "filename": "seating-2026-05-10T13:04:27.688Z.png",
       "link": "screenshots/seating-2026-05-10T13:04:27.688Z.png"
+    },
+    {
+      "filename": "seating-2026-05-10T16:46:20.657Z.png",
+      "link": "screenshots/seating-2026-05-10T16:46:20.657Z.png"
     }
   ]
 }
